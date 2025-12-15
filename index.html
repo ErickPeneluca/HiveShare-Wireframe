@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HiveShare - Rede Social</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Tela de Login -->
+    <div id="login-screen" class="screen active">
+        <div class="login-container">
+            <div class="login-left">
+                <h1>🐝 HiveShare</h1>
+                <p>Conecte-se, compartilhe e descubra conteúdo incrível</p>
+                <div class="features">
+                    <div class="feature-item">✨ Posts ilimitados</div>
+                    <div class="feature-item">🎨 Compartilhe fotos e vídeos</div>
+                    <div class="feature-item">💬 Converse com a comunidade</div>
+                    <div class="feature-item">🏷️ Organize com tags</div>
+                </div>
+            </div>
+            <div class="login-right">
+                <div class="login-box">
+                    <div class="tabs">
+                        <button class="tab-btn active" onclick="switchTab('login')">Entrar</button>
+                        <button class="tab-btn" onclick="switchTab('register')">Criar Conta</button>
+                    </div>
+
+                    <div id="login-form" class="form-container active">
+                        <form onsubmit="handleLogin(event)">
+                            <div class="form-group">
+                                <input type="email" id="login-email" placeholder="Email" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="login-password" placeholder="Senha" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Entrar</button>
+                        </form>
+                    </div>
+
+                    <div id="register-form" class="form-container">
+                        <form onsubmit="handleRegister(event)">
+                            <div class="form-group">
+                                <input type="text" id="register-name" placeholder="Nome completo" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="register-email" placeholder="Email" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="register-password" placeholder="Senha (mín. 6 caracteres)" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Criar Conta</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Principal -->
+    <div id="app-screen" class="screen">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-left">
+                    <div class="nav-brand">🐝 HiveShare</div>
+                    <div class="search-box">
+                        <input type="text" placeholder="Buscar posts, pessoas, tags..." id="search-input">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <button class="icon-btn" title="Notificações">
+                        <span class="notification-badge">3</span>
+                        🔔
+                    </button>
+                    <button class="icon-btn" title="Mensagens">
+                        <span class="notification-badge">1</span>
+                        💬
+                    </button>
+                    <div class="user-menu" onclick="toggleUserMenu()">
+                        <div class="user-avatar" id="nav-avatar">U</div>
+                        <span id="nav-username">Usuário</span>
+                        <div class="dropdown-menu" id="user-dropdown">
+                            <a href="#" onclick="showProfile()">Meu Perfil</a>
+                            <a href="#" onclick="showSettings()">Configurações</a>
+                            <a href="#" onclick="logout()">Sair</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Container Principal -->
+        <div class="main-container">
+            <!-- Sidebar Esquerda -->
+            <aside class="sidebar-left">
+                <div class="sidebar-section">
+                    <button class="sidebar-btn active" onclick="showFeed('all')">
+                        <span class="icon">🏠</span> Início
+                    </button>
+                    <button class="sidebar-btn" onclick="showFeed('following')">
+                        <span class="icon">👥</span> Seguindo
+                    </button>
+                    <button class="sidebar-btn" onclick="showFeed('trending')">
+                        <span class="icon">🔥</span> Em Alta
+                    </button>
+                    <button class="sidebar-btn" onclick="showFeed('saved')">
+                        <span class="icon">🔖</span> Salvos
+                    </button>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h4>Tags Populares</h4>
+                    <div class="tag-list" id="popular-tags">
+                        <a href="#" class="tag-link" onclick="filterByTag('tecnologia')">#tecnologia</a>
+                        <a href="#" class="tag-link" onclick="filterByTag('design')">#design</a>
+                        <a href="#" class="tag-link" onclick="filterByTag('programacao')">#programacao</a>
+                        <a href="#" class="tag-link" onclick="filterByTag('ia')">#ia</a>
+                        <a href="#" class="tag-link" onclick="filterByTag('startup')">#startup</a>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Feed Central -->
+            <main class="feed-container">
+                <!-- Criar Post -->
+                <div class="create-post-box">
+                    <div class="create-post-header">
+                        <div class="user-avatar small" id="create-avatar">U</div>
+                        <input type="text" placeholder="O que você está pensando?" 
+                               onclick="openCreatePostModal()" readonly>
+                    </div>
+                    <div class="create-post-actions">
+                        <button class="post-action-btn" onclick="openCreatePostModal()">
+                            📷 Foto
+                        </button>
+                        <button class="post-action-btn" onclick="openCreatePostModal()">
+                            🎥 Vídeo
+                        </button>
+                        <button class="post-action-btn" onclick="openCreatePostModal()">
+                            🏷️ Tag
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Feed de Posts -->
+                <div id="posts-feed" class="posts-feed">
+                    <!-- Posts serão inseridos aqui via JavaScript -->
+                </div>
+
+                <!-- Loading -->
+                <div class="feed-loading" id="feed-loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Carregando mais posts...</p>
+                </div>
+
+                <!-- Fim do Feed -->
+                <div class="feed-end" id="feed-end" style="display: none;">
+                    <p>Você viu todos os posts recentes! 🎉</p>
+                </div>
+            </main>
+
+            <!-- Sidebar Direita -->
+            <aside class="sidebar-right">
+                <div class="widget">
+                    <h4>Sugestões para Seguir</h4>
+                    <div id="suggestions-list" class="suggestions-list">
+                        <!-- Sugestões serão inseridas aqui -->
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <h4>Trending Today</h4>
+                    <div class="trending-list">
+                        <div class="trending-item">
+                            <div class="trending-rank">1</div>
+                            <div class="trending-info">
+                                <div class="trending-tag">#IA</div>
+                                <div class="trending-count">1.2K posts</div>
+                            </div>
+                        </div>
+                        <div class="trending-item">
+                            <div class="trending-rank">2</div>
+                            <div class="trending-info">
+                                <div class="trending-tag">#WebDev</div>
+                                <div class="trending-count">856 posts</div>
+                            </div>
+                        </div>
+                        <div class="trending-item">
+                            <div class="trending-rank">3</div>
+                            <div class="trending-info">
+                                <div class="trending-tag">#Design</div>
+                                <div class="trending-count">643 posts</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Modal: Criar Post -->
+    <div id="create-post-modal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Criar Post</h3>
+                <button class="close-btn" onclick="closeModal('create-post-modal')">&times;</button>
+            </div>
+            <form onsubmit="handleCreatePost(event)">
+                <div class="post-creator">
+                    <div class="user-info-line">
+                        <div class="user-avatar small" id="modal-avatar">U</div>
+                        <span id="modal-username">Usuário</span>
+                    </div>
+                    <textarea id="post-content" placeholder="Compartilhe algo interessante..." 
+                              rows="6" maxlength="3000"></textarea>
+                    <div class="char-counter">
+                        <span id="char-count">0</span> / 3000
+                    </div>
+                    
+                    <div class="media-preview" id="media-preview"></div>
+                    
+                    <div class="form-group">
+                        <input type="text" id="post-tags" placeholder="Adicione tags (separe por vírgula)">
+                        <small>Ex: tecnologia, programação, tutorial</small>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <div class="post-options">
+                        <button type="button" class="icon-btn" title="Adicionar foto">📷</button>
+                        <button type="button" class="icon-btn" title="Adicionar vídeo">🎥</button>
+                        <button type="button" class="icon-btn" title="Adicionar emoji">😀</button>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Publicar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Visualizar Post Completo -->
+    <div id="view-post-modal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Post</h3>
+                <button class="close-btn" onclick="closeModal('view-post-modal')">&times;</button>
+            </div>
+            <div id="post-details">
+                <!-- Detalhes do post serão inseridos aqui -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>
