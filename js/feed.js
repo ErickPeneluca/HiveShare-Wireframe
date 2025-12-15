@@ -714,7 +714,7 @@ let currentSearchQuery = "";
 function handleSearch(event) {
   const searchInput = document.getElementById("search-input");
   currentSearchQuery = searchInput.value.trim().toLowerCase();
-  
+
   // Permitir busca com Enter
   if (event && event.key === "Enter") {
     performSearch();
@@ -754,7 +754,10 @@ function searchByTag(tag) {
     container.innerHTML += renderPost(post);
   });
 
-  showNotification(`${filteredPosts.length} post(s) encontrado(s) com #${tag}`, "success");
+  showNotification(
+    `${filteredPosts.length} post(s) encontrado(s) com #${tag}`,
+    "success"
+  );
 }
 
 function searchPosts(query) {
@@ -779,7 +782,10 @@ function searchPosts(query) {
     container.innerHTML += renderPost(post);
   });
 
-  showNotification(`${filteredPosts.length} resultado(s) encontrado(s)`, "success");
+  showNotification(
+    `${filteredPosts.length} resultado(s) encontrado(s)`,
+    "success"
+  );
 }
 
 function filterByTag(tag) {
