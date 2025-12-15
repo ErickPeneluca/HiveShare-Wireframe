@@ -143,7 +143,7 @@ function handleLogin(event) {
         currentUser = user;
         localStorage.setItem('currentUser', JSON.stringify(user));
         // Redirecionar para a página do feed
-        window.location.href = 'feed.html';
+        window.location.href = '/HiveShare-Wireframe/feed.html';
     } else {
         showNotification('Email ou senha incorretos!', 'error');
     }
@@ -180,7 +180,7 @@ function handleRegister(event) {
     currentUser = newUser;
     localStorage.setItem('currentUser', JSON.stringify(newUser));
     // Redirecionar para a página do feed
-    window.location.href = 'feed.html';
+    window.location.href = '/HiveShare-Wireframe/feed.html';
 }
 
 function logout() {
