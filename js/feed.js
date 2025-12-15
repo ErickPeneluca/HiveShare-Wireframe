@@ -1288,9 +1288,9 @@ function handleVideoUpload(event) {
     return;
   }
 
-  if (file.size > 50 * 1024 * 1024) {
-    // 50MB limite
-    showNotification("O vídeo deve ter no máximo 50MB!", "error");
+  if (file.size > 300 * 1024 * 1024) {
+    // 300MB limite
+    showNotification("O vídeo deve ter no máximo 300MB!", "error");
     return;
   }
 
