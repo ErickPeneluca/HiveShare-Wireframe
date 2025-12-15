@@ -61,7 +61,7 @@ function initializeFeed() {
     } else {
         // Modo visitante: mostrar botão de login
         document.querySelector('.user-menu').innerHTML = `
-            <button class="btn btn-primary" onclick="window.location.href='index.html'">Entrar</button>
+            <button class="btn btn-primary" onclick="window.location.href='../index.html'">Entrar</button>
         `;
         document.getElementById('create-avatar').textContent = '👤';
     }
@@ -318,7 +318,7 @@ function loadMorePosts() {
 function openCreatePostModal() {
     if (!currentUser) {
         showNotification('Faça login para criar posts!', 'info');
-        setTimeout(() => window.location.href = 'index.html', 1500);
+        setTimeout(() => window.location.href = '../index.html', 1500);
         return;
     }
     showModal('create-post-modal');
@@ -394,7 +394,7 @@ function updateCharCount() {
 function toggleLike(postId) {
     if (!currentUser) {
         showNotification('Faça login para curtir posts!', 'info');
-        setTimeout(() => window.location.href = 'index.html', 1500);
+        setTimeout(() => window.location.href = '../index.html', 1500);
         return;
     }
     
@@ -419,7 +419,7 @@ function toggleLike(postId) {
 function toggleSave(postId) {
     if (!currentUser) {
         showNotification('Faça login para salvar posts!', 'info');
-        setTimeout(() => window.location.href = 'index.html', 1500);
+        setTimeout(() => window.location.href = '../index.html', 1500);
         return;
     }
     
@@ -451,7 +451,7 @@ function updatePostInDOM(post) {
 function openComments(postId) {
     if (!currentUser) {
         showNotification('Faça login para ver comentários!', 'info');
-        setTimeout(() => window.location.href = 'index.html', 1500);
+        setTimeout(() => window.location.href = '../index.html', 1500);
         return;
     }
     
@@ -668,7 +668,7 @@ function loadSuggestions() {
 function followUser(userId) {
     if (!currentUser) {
         showNotification('Faça login para seguir usuários!', 'info');
-        setTimeout(() => window.location.href = 'index.html', 1500);
+        setTimeout(() => window.location.href = '../index.html', 1500);
         return;
     }
     
@@ -705,7 +705,7 @@ function showSettings() {
 function logout() {
     currentUser = null;
     localStorage.removeItem('currentUser');
-    window.location.href = 'index.html';
+    window.location.href = '../index.html';
 }
 
 // Utilitários
