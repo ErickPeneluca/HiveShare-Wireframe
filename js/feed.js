@@ -709,9 +709,92 @@ function deletePost(postId) {
 }
 
 // Filtros e Busca
+let currentSearchQuery = "";
+
+function handleSearch(event) {
+  const searchInput = document.getElementById("search-input");
+  currentSearchQuery = searchInput.value.trim().toLowerCase();
+  
+  // Permitir busca com Enter
+  if (event && event.key === "Enter") {
+    performSearch();
+  }
+}
+
+function performSearch() {
+  if (!currentSearchQuery) {
+    showNotification("Digite algo para buscar!", "info");
+    return;
+  }
+
+  // Se começar com #, é uma busca por tag
+  if (currentSearchQuery.startsWith("#")) {
+    const tag = currentSearchQuery.substring(1);
+    searchByTag(tag);
+  } else {
+    searchPosts(currentSearchQuery);
+  }
+}
+
+function searchByTag(tag) {
+  const filteredPosts = posts.filter((post) =>
+    post.tags?.some((t) => t.toLowerCase().includes(tag.toLowerCase()))
+  );
+
+  if (filteredPosts.length === 0) {
+    showNotification(`Nenhum post encontrado com a tag #${tag}`, "info");
+    return;
+  }
+
+  // Exibir posts filtrados
+  const container = document.getElementById("posts-feed");
+  container.innerHTML = "";
+
+  filteredPosts.forEach((post) => {
+    container.innerHTML += renderPost(post);
+  });
+
+  showNotification(`${filteredPosts.length} post(s) encontrado(s) com #${tag}`, "success");
+}
+
+function searchPosts(query) {
+  const filteredPosts = posts.filter(
+    (post) =>
+      post.content.toLowerCase().includes(query) ||
+      post.author.name.toLowerCase().includes(query) ||
+      post.author.handle.toLowerCase().includes(query) ||
+      post.tags?.some((tag) => tag.toLowerCase().includes(query))
+  );
+
+  if (filteredPosts.length === 0) {
+    showNotification(`Nenhum resultado encontrado para "${query}"`, "info");
+    return;
+  }
+
+  // Exibir posts filtrados
+  const container = document.getElementById("posts-feed");
+  container.innerHTML = "";
+
+  filteredPosts.forEach((post) => {
+    container.innerHTML += renderPost(post);
+  });
+
+  showNotification(`${filteredPosts.length} resultado(s) encontrado(s)`, "success");
+}
+
 function filterByTag(tag) {
   document.getElementById("search-input").value = `#${tag}`;
-  showNotification(`Filtrando por #${tag}`, "info");
+  currentSearchQuery = `#${tag}`;
+  searchByTag(tag);
+}
+
+function clearSearch() {
+  document.getElementById("search-input").value = "";
+  currentSearchQuery = "";
+  currentPage = 1;
+  hasMorePosts = true;
+  loadFeed();
+  loadSuggestions();
 }
 
 // Sugestões
