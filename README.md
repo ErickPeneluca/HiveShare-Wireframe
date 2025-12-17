@@ -6,6 +6,10 @@ Uma rede social moderna e responsiva desenvolvida com HTML5, CSS3 e JavaScript p
 
 HiveShare é uma plataforma de rede social que permite aos usuários compartilhar posts, interagir com conteúdo através de curtidas e comentários, seguir outros usuários e muito mais.
 
+## 🚀 Deploy
+
+- https://erickpeneluca.github.io/HiveShare-Wireframe/
+
 ## ✨ Funcionalidades
 
 ### 🔐 Autenticação
